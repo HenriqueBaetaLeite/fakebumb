@@ -11,18 +11,16 @@ Enquanto o processo de desarme é feito, o tempo é pausado e voltará à correr
     1. Quando a ogiva não é retirada e o pressionamento do botão é iniciado;
         
     2. Quando o tempo total de tentativa de desarme ultrapassar 20 segundos.
-    
-    quando estas 2 situações acontecem, um bip é soado, o compartimento se fecha e é necessário aguardar 5 segundos para reiniciar o processo de desarme.
+
+Quando estas 2 situações acontecem, um bip é soado, o compartimento se fecha e é necessário aguardar 5 segundos para reiniciar o processo de desarme.
 
 Caso o tempo total esteja com menos de 5 segundos, não será possível mais desarmar a bomba, o botão de desarme não fará nenhum efeito.
-
 
 A construção foi feita utilizando sucata, latas e frascos de produtos industrializados.
 
 A parte eletrônica envolve 1 servo motor, 1 buzzer, 1 sensor LDR, 1 push button e 5 leds (com 5 resistores), nada mais! ;)
 
 A inspiração veio do pessoal da Real Fake (https://www.realfake.com.br/).
-
 
 Construção "física" da bomba:
 
