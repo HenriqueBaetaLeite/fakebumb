@@ -114,7 +114,7 @@ void setup()
       {
       }
 
-      if (millis() - timeButtonPressed >= timeButtonPressed)
+      if (millis() - timeButtonPressed >= timeForStartGame)
       {
         noInterrupts();
         timer0_millis = 0;
