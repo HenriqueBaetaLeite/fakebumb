@@ -2,6 +2,8 @@
 
 VarSpeedServo servo;
 
+extern volatile unsigned long timer0_millis = 0;
+
 const int ledRedBomb = 2;
 const int ledYellowBomb = 3;
 const int ledGreenBomb = 4;
@@ -104,6 +106,9 @@ void setup()
     if (digitalRead(startOpenBombButton) == LOW)
     {
       Serial.prinln("Button pressed...");
+      noInterrupts();
+      timer0_millis = 0;
+      interrupts();
       gameNotStarted = false;
     }
   }
