@@ -105,6 +105,7 @@ void setup()
     Serial.println("Será q deu certo???");
     blinkLeds();
     if(digitalRead(startOpenBombButton) == LOW) {
+      Serial.prinln("Button pressed...");
       gameNotStarted = false;
     }
   }
