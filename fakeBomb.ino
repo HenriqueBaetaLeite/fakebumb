@@ -27,19 +27,21 @@ const int ledInside = 9;
 
 unsigned long timeButtonPressed = 0;
 
-unsigned long lastTime = 0;
+unsigned long lastTime1 = 0;
 unsigned long lastTime2 = 0;
 unsigned long lastTime3 = 0;
 
+// Must press the button for 3seconds to start the game
+unsigned long timeForStartGame = 3000;
+
 unsigned long lastTimeBlinkLeds = 0;
 
-unsigned long twoSecondsInterval = 2000;
+unsigned long oneSecondsInterval = 1000;
 
 // Fix time here:
 unsigned long twoMinutesInterval = 2000;
 unsigned long fourMinutesInterval = 4000;
 unsigned long sixMinutesInterval = 6000;
-
 
 unsigned long totalTime = 10000;
 
@@ -50,23 +52,23 @@ void (*resetFunc)(void) = 0;
 void blinkLeds()
 {
   unsigned long actualTime = millis();
-  if (actualTime - lastTimeBlinkLeds >= twoSecondsInterval)
+  if (actualTime - lastTimeBlinkLeds >= oneSecondsInterval)
   {
-    lastTimeBlinkLeds = millis();
     allLedsState = !allLedsState;
     digitalWrite(ledGreenBomb, allLedsState);
     digitalWrite(ledRedBomb, allLedsState);
     digitalWrite(ledYellowBomb, allLedsState);
+    lastTimeBlinkLeds = millis();
   }
 }
 
 void ledTimerSync()
 {
   unsigned long actualTime = millis();
-  if (actualTime - lastTime >= twoMinutesInterval)
+  if (actualTime - lastTime1 >= twoMinutesInterval)
   {
     digitalWrite(ledGreenBomb, greenLedState);
-    lastTime = actualTime;
+    lastTime1 = actualTime;
   }
 
   if (actualTime - lastTime2 >= fourMinutesInterval)
@@ -103,13 +105,22 @@ void setup()
   {
     blinkLeds();
 
-    if (digitalRead(startOpenBombButton) == LOW)
+    bool isButtonPressed = digitalRead(startOpenBombButton);
+
+    if (isButtonPressed)
     {
-      Serial.prinln("Button pressed...");
-      noInterrupts();
-      timer0_millis = 0;
-      interrupts();
-      gameNotStarted = false;
+      timeButtonPressed = millis();
+      while (millis() - timeButtonPressed < timeForStartGame && isButtonPressed)
+      {
+      }
+
+      if (millis() - timeButtonPressed >= timeButtonPressed)
+      {
+        noInterrupts();
+        timer0_millis = 0;
+        interrupts();
+        gameNotStarted = false;
+      }
     }
   }
 }
