@@ -36,9 +36,9 @@ unsigned long timeForStartGame = 3000;
 
 unsigned long lastTimeBlinkLeds = 0;
 
-unsigned long oneSecondsInterval = 1000;
+unsigned long oneSecondInterval = 1000;
 
-// Fix time here:
+// Fix time here, its only 2 seconds, not 2 minutes
 unsigned long twoMinutesInterval = 2000;
 unsigned long fourMinutesInterval = 4000;
 unsigned long sixMinutesInterval = 6000;
@@ -52,7 +52,7 @@ void (*resetFunc)(void) = 0;
 void blinkLeds()
 {
   unsigned long actualTime = millis();
-  if (actualTime - lastTimeBlinkLeds >= oneSecondsInterval)
+  if (actualTime - lastTimeBlinkLeds >= oneSecondInterval)
   {
     allLedsState = !allLedsState;
     digitalWrite(ledGreenBomb, allLedsState);
@@ -116,9 +116,9 @@ void setup()
 
       if (millis() - timeButtonPressed >= timeForStartGame)
       {
-        noInterrupts();
-        timer0_millis = 0;
-        interrupts();
+        // noInterrupts();
+        // timer0_millis = 0;
+        // interrupts();
         gameNotStarted = false;
       }
     }
@@ -136,7 +136,6 @@ void loop()
     if (digitalRead(startOpenBombButton) == LOW)
     {
       itIsOpen = true;
-      Serial.println("Yessss!");
     }
 
     if (digitalRead(disarmBombButton) == LOW)
@@ -147,13 +146,11 @@ void loop()
     if (itIsOpen)
     {
       servo.slowmove(0, 20);
-      Serial.println("it is open!" + itIsOpen);
     }
 
     if (!itIsOpen)
     {
       servo.slowmove(100, 20);
-      Serial.println("it is close!" + itIsOpen);
     }
   }
   resetFunc();
