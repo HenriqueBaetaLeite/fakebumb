@@ -112,6 +112,7 @@ void setup()
       timeButtonPressed = millis();
       while (millis() - timeButtonPressed < timeForStartGame && isButtonPressed)
       {
+        Serial.println("Keep pressing to start the game");
       }
 
       if (millis() - timeButtonPressed >= timeForStartGame)
@@ -122,6 +123,7 @@ void setup()
         gameNotStarted = false;
       }
     }
+    timeButtonPressed = 0;
   }
 }
 // LOOP ARDUINO
@@ -153,5 +155,6 @@ void loop()
       servo.slowmove(100, 20);
     }
   }
+  servo.slowmove(100, 20);
   resetFunc();
 }
