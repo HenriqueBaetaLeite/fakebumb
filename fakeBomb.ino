@@ -2,8 +2,6 @@
 
 VarSpeedServo servo;
 
-extern volatile unsigned long timer0_millis = 0;
-
 const int ledRedBomb = 2;
 const int ledYellowBomb = 3;
 const int ledGreenBomb = 4;
@@ -25,14 +23,9 @@ const int myServo = 8;
 
 const int ledInside = 9;
 
-unsigned long timeButtonPressed = 0;
-
 unsigned long lastTime1 = 0;
 unsigned long lastTime2 = 0;
 unsigned long lastTime3 = 0;
-
-// Must press the button for 3seconds to start the game
-unsigned long timeForStartGame = 3000;
 
 unsigned long lastTimeBlinkLeds = 0;
 
@@ -84,10 +77,26 @@ void ledTimerSync()
   }
 }
 
+void waitToStartGame()
+{
+  while (gameNotStarted)
+  {
+    blinkLeds();
+
+    bool isButtonPressed = !digitalRead(startOpenBombButton);
+
+    if (isButtonPressed == HIGH)
+    {
+      gameNotStarted = false;
+    }
+  }
+}
+
 void setup()
 {
   Serial.begin(9600);
   Serial.println("Entrei no setup");
+  Serial.println(millis());
 
   pinMode(disarmBombButton, INPUT_PULLUP);
   pinMode(startOpenBombButton, INPUT_PULLUP);
@@ -99,37 +108,14 @@ void setup()
 
   servo.attach(myServo);
 
-  servo.slowmove(100, 20);
-
-  while (gameNotStarted)
-  {
-    blinkLeds();
-
-    bool isButtonPressed = digitalRead(startOpenBombButton);
-
-    if (isButtonPressed)
-    {
-      timeButtonPressed = millis();
-      while (millis() - timeButtonPressed < timeForStartGame && isButtonPressed)
-      {
-        Serial.println("Keep pressing to start the game");
-      }
-
-      if (millis() - timeButtonPressed >= timeForStartGame)
-      {
-        // noInterrupts();
-        // timer0_millis = 0;
-        // interrupts();
-        gameNotStarted = false;
-      }
-    }
-    timeButtonPressed = 0;
-  }
+  // servo.slowmove(100, 20);
 }
+
 // LOOP ARDUINO
 
 void loop()
 {
+  waitToStartGame();
   while (millis() < totalTime)
   {
 
