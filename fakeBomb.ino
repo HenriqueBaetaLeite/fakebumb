@@ -6,6 +6,7 @@ const int ledRedBomb = 2;
 const int ledYellowBomb = 3;
 const int ledGreenBomb = 4;
 
+
 bool redLedState = false;
 bool greenLedState = false;
 bool yellowLedState = false;
@@ -13,6 +14,7 @@ bool yellowLedState = false;
 bool allLedsState = false;
 
 bool gameNotStarted = true;
+bool functionStartActivated = false;
 
 const int disarmBombButton = 5;
 const int startOpenBombButton = 6;
@@ -87,6 +89,7 @@ void waitToStartGame()
 
     if (isButtonPressed == HIGH)
     {
+      functionStartActivated = true;
       gameNotStarted = false;
     }
   }
@@ -121,7 +124,7 @@ void loop()
 
     ledTimerSync();
 
-    if (digitalRead(startOpenBombButton) == LOW)
+    if (digitalRead(startOpenBombButton) == LOW && functionStartActivated)
     {
       itIsOpen = true;
     }
