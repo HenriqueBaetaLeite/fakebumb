@@ -87,7 +87,7 @@ void waitToStartGame()
 
     bool isButtonPressed = !digitalRead(startOpenBombButton);
 
-    if (isButtonPressed == HIGH)
+    if (isButtonPressed)
     {
       functionStartActivated = true;
       gameNotStarted = false;
